@@ -1,14 +1,13 @@
 {
   "operations": [
     {
-      "name": "create",
+      "name": "certify",
       "params": [
-        "path",
         "params",
         "callback"
       ],
       "docs": {
-        "description": "Creates a fictional resource in a fictional destination system using a POST request",
+        "description": "Generate a DIVOC vaccine certificate",
         "tags": [
           {
             "title": "public",
@@ -17,7 +16,7 @@
           },
           {
             "title": "example",
-            "description": "create(\"/endpoint\", {\"foo\": \"bar\"})"
+            "description": "certify({preEnrollmentCode: \"foo\", name: \"bar\"})"
           },
           {
             "title": "function",
@@ -26,16 +25,7 @@
           },
           {
             "title": "param",
-            "description": "Path to resource",
-            "type": {
-              "type": "NameExpression",
-              "name": "string"
-            },
-            "name": "path"
-          },
-          {
-            "title": "param",
-            "description": "data to create the new resource",
+            "description": "data required to request the certificate",
             "type": {
               "type": "NameExpression",
               "name": "object"
@@ -64,13 +54,13 @@
       "valid": true
     },
     {
-      "name": "createPatient",
+      "name": "getCertificate",
       "params": [
-        "params",
+        "id",
         "callback"
       ],
       "docs": {
-        "description": "Create a fictional patient in a fictional universe with a fictional REST api",
+        "description": "Get the PDF of a generated certificate",
         "tags": [
           {
             "title": "public",
@@ -79,7 +69,7 @@
           },
           {
             "title": "example",
-            "description": "createPatient({\"foo\": \"bar\"})"
+            "description": "getCertificate(\"foo\");"
           },
           {
             "title": "function",
@@ -88,12 +78,12 @@
           },
           {
             "title": "param",
-            "description": "data to create the new resource",
+            "description": "the certificate identifier",
             "type": {
               "type": "NameExpression",
-              "name": "object"
+              "name": "string"
             },
-            "name": "params"
+            "name": "id"
           },
           {
             "title": "param",
@@ -134,7 +124,7 @@
           },
           {
             "title": "example",
-            "description": "alterState(callback)"
+            "description": "alterState(state => {\n  // do some things to state\n  return state;\n})"
           },
           {
             "title": "function",
@@ -238,7 +228,7 @@
         "path"
       ],
       "docs": {
-        "description": "Picks out a single value from source data.\nIf a JSONPath returns more than one value for the reference, the first\nitem will be returned.",
+        "description": "Picks out a single value from the source data object—usually `state.data`.\nIf a JSONPath returns more than one value for the reference, the first\nitem will be returned.",
         "tags": [
           {
             "title": "public",
@@ -394,7 +384,9 @@
     },
     {
       "name": "fields",
-      "params": [],
+      "params": [
+        null
+      ],
       "docs": {
         "description": "Zips key value pairs into an object.",
         "tags": [
@@ -422,7 +414,7 @@
           }
         ]
       },
-      "valid": true
+      "valid": false
     },
     {
       "name": "merge",

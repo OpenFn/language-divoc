@@ -1,7 +1,7 @@
 {
-  "name": "@openfn/language-template",
-  "version": "1.1.27",
-  "description": "An Language Package Template for OpenFn",
+  "name": "@openfn/language-divoc",
+  "version": "0.1.0",
+  "description": "An OpenFn adaptor for DIVOC",
   "main": "lib/index.js",
   "scripts": {
     "ast": "simple-ast --adaptor ./src/Adaptor.js --output ast.json",
@@ -21,7 +21,7 @@
     "lib": "./lib"
   },
   "dependencies": {
-    "@openfn/language-common": "1.2.4",
+    "@openfn/language-common": "1.2.8",
     "axios": "^0.21.1"
   },
   "devDependencies": {

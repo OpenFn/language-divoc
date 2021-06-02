@@ -36,29 +36,28 @@ export function execute(...operations) {
 }
 
 /**
- * Creates a fictional resource in a fictional destination system using a POST request
+ * Generate a DIVOC vaccine certificate
  * @public
  * @example
- * create("/endpoint", {"foo": "bar"})
+ * certify({preEnrollmentCode: "foo", name: "bar"})
  * @function
- * @param {string} path - Path to resource
- * @param {object} params - data to create the new resource
+ * @param {object} params - data required to request the certificate
  * @param {function} callback - (Optional) callback function
  * @returns {Operation}
  */
-export function create(path, params, callback) {
+export function certify(params, callback) {
   return state => {
-    path = expandReferences(path)(state);
     params = expandReferences(params)(state);
 
-    const { baseUrl, username, password } = state.configuration;
+    const { baseUrl, token } = state.configuration;
 
-    const url = `${baseUrl}/${path}`;
-    const auth = { username, password };
+    const url = `${baseUrl}/api/v1/certify`;
+    const Authorization = `Bearer ${token}`;
 
     const config = {
       url,
       body: params,
+      headers: { Authorization },
     };
 
     return http
@@ -75,32 +74,31 @@ export function create(path, params, callback) {
 }
 
 /**
- * Create a fictional patient in a fictional universe with a fictional REST api
+ * Get the PDF of a generated certificate
  * @public
  * @example
- * createPatient({"foo": "bar"})
+ * getCertificate("foo");
  * @function
- * @param {object} params - data to create the new resource
+ * @param {string} id - the certificate identifier
  * @param {function} callback - (Optional) callback function
  * @returns {Operation}
  */
-export function createPatient(params, callback) {
+export function getCertificate(id, callback) {
   return state => {
     params = expandReferences(params)(state);
 
-    const { baseUrl, username, password } = state.configuration;
+    const { baseUrl, token } = state.configuration;
 
-    const url = `${baseUrl}/patient`;
-    const auth = { username, password };
+    const url = `${baseUrl}/cert/api/certificatePDF/${id}`;
+    const Authorization = `Bearer ${token}`;
 
     const config = {
       url,
-      body: params,
-      auth,
+      headers: { Authorization },
     };
 
     return http
-      .post(config)(state)
+      .get(config)(state)
       .then(response => {
         const nextState = {
           ...composeNextState(state, response.data),
@@ -112,7 +110,6 @@ export function createPatient(params, callback) {
   };
 }
 
-// What functions do you want from the common adaptor?
 export {
   alterState,
   dataPath,
