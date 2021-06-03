@@ -42,7 +42,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/OpenFn/adaptor.git"
+    "url": "git+https://github.com/OpenFn/language-divoc.git"
   },
   "bundledDependencies": [
     "@openfn/language-common",
