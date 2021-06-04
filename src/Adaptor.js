@@ -6,8 +6,11 @@ import {
   http,
 } from '@openfn/language-common';
 
+import FormData from 'form-data';
+
 const { axios } = http;
 exports.axios = axios;
+exports.FormData = FormData;
 
 /**
  * Execute a sequence of operations.
@@ -51,12 +54,12 @@ export function certify(params, callback) {
 
     const { baseUrl, token } = state.configuration;
 
-    const url = `${baseUrl}/api/v1/certify`;
+    const url = `${baseUrl}/divoc/api/v1/certify`;
     const Authorization = `Bearer ${token}`;
 
     const config = {
       url,
-      body: params,
+      data: params,
       headers: { Authorization },
     };
 
@@ -67,6 +70,7 @@ export function certify(params, callback) {
           ...composeNextState(state, response.data),
           response,
         };
+
         if (callback) return callback(nextState);
         return nextState;
       });
@@ -80,12 +84,13 @@ export function certify(params, callback) {
  * getCertificate("foo");
  * @function
  * @param {string} id - the certificate identifier
- * @param {function} callback - (Optional) callback function
+ * @param {function} handler - callback function which takes a stream
+ * @param {function} callback - (Optional) callback function which takes the result of the streamhandler
  * @returns {Operation}
  */
-export function getCertificate(id, callback) {
+export function getCertificateStream(id, handler, callback) {
   return state => {
-    params = expandReferences(params)(state);
+    id = expandReferences(id)(state);
 
     const { baseUrl, token } = state.configuration;
 
@@ -95,15 +100,19 @@ export function getCertificate(id, callback) {
     const config = {
       url,
       headers: { Authorization },
+      responseType: 'stream',
     };
 
     return http
       .get(config)(state)
+      .then(response => handler(response.data))
       .then(response => {
+        console.log('Handler finished. Got response:', response);
         const nextState = {
           ...composeNextState(state, response.data),
           response,
         };
+
         if (callback) return callback(nextState);
         return nextState;
       });

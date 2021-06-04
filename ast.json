@@ -54,9 +54,10 @@
       "valid": true
     },
     {
-      "name": "getCertificate",
+      "name": "getCertificateStream",
       "params": [
         "id",
+        "handler",
         "callback"
       ],
       "docs": {
@@ -87,7 +88,16 @@
           },
           {
             "title": "param",
-            "description": "(Optional) callback function",
+            "description": "callback function which takes a stream",
+            "type": {
+              "type": "NameExpression",
+              "name": "function"
+            },
+            "name": "handler"
+          },
+          {
+            "title": "param",
+            "description": "(Optional) callback function which takes the result of the streamhandler",
             "type": {
               "type": "NameExpression",
               "name": "function"
