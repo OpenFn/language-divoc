@@ -47,6 +47,7 @@
   },
   "bundledDependencies": [
     "@openfn/language-common",
-    "axios"
+    "axios",
+    "form-data"
   ]
 }
